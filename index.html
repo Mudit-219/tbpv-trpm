@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anonymous+Pro:ital,wght@0,400;0,700;1,400;1,700&family=Young+Serif&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/vnd.icon" href="moka-favicon.ico">
+    <title>TBPV TRPM - Moka Boka</title>
+    <style>
+       @font-face {
+        font-family: 'Adelphe Trouble';
+        src: url('fonts/Adelphe-Trouble-GerminalSemiBold.woff2') format('woff2'),
+            url('fonts/Adelphe-Trouble-GerminalSemiBold.woff') format('woff');
+        font-weight: normal;
+        font-style: normal;
+        font-display: swap;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html, body {
+            height: 100%;
+        }
+
+        body {
+            background-color: #FEFFFA;
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+            min-height: 100dvh; /* Viewport dynamique pour mobile */
+            
+            
+  min-height: 100dvh;     /* hauteur dynamique (iOS/Android) */
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;       /* empêche le scroll */
+
+        }
+
+        main {
+  flex: 1;
+  overflow: hidden;
+}
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 17px 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .title {
+            font-size: 22px;
+            font-weight: normal;
+            color: #356FE9;
+            letter-spacing: 0.5px;
+            line-height: 22px;
+            font-family: 'Adelphe Trouble', normal;
+        }
+
+        .newsletter-link {
+            background-color: #FEFFFA;
+            color: #356FE9;
+            font-size: 20px;
+            font-weight: 800;
+            padding: 1px 10px;
+            border: solid #356FE9;
+            border-width: 2px;
+            border-radius: 25px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-family: 'Adelphe Trouble', normal;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-style: italic;
+            
+        }
+
+        .newsletter-link:hover {
+            background-color: #356FE9;
+            color: #FEFFFA;
+            box-shadow: 0px 8px 24px rgba(0, 125, 243, 0.3);
+        }
+
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+        }
+
+        .artist-image {
+            z-index: 40;
+            max-width: 100%;
+            max-height: 50vh;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            border: none;
+            box-shadow: none;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        footer {
+        font-family: "Roboto", sans-serif;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 20px;
+        font-size: 12px;
+        position: sticky;   /* ou fixed si tu veux qu'il flotte */
+        bottom: 0;
+        width: 100%;
+        z-index: 50;
+        }
+        
+        .copyright {
+            margin-bottom: 5px;
+            text-align: center;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: left;
+            gap: 15px;
+        }
+
+        /* Container mobile masqué par défaut */
+        .footer-links-container {
+            display: none;
+        }
+        
+        .footer-link {
+            color: #333;
+            display: flex;
+            justify-content: right;
+            text-decoration: none;
+            text-transform: uppercase;
+            transition: color 0.2s ease;
+        }
+        
+        .footer-link:hover {
+            color: #007DF3;
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            padding: 40px;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 380px;
+            position: relative;
+            text-align: center;
+            color: white;
+            font-family: "Roboto", sans-serif;
+        }
+
+        .close-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            font-weight: 300;
+            z-index: 1001;
+            font-family: "Anonymous Pro", monospace;
+            letter-spacing: 0.5px;
+            line-height: 1.3;
+            font-size: 20px;
+        }
+
+        .close-button:hover {
+            color: #ccc;
+        }
+
+        .modal-title {
+            font-size: 20px;
+            margin-bottom: 20px;
+            font-weight: 400;
+            line-height: 1.4;
+            font-family: 'Adelphe Trouble', normal;
+        }
+
+        .modal-form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .email-input {
+            background: #1B1B1B;
+            border: solid #545454;
+            border-width: 2px;
+            color: white;
+            padding: 7px 7px;
+            font-size: 14px;
+            outline: none;
+            font-family: "Anonymous Pro", monospace;
+        }
+
+        .email-input::placeholder {
+            color: #888;
+            font-size: 14px;
+        }
+
+        .email-input:focus {
+            border-bottom-color: #666;
+        }
+
+        .checkbox-container {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin: 0 1px;
+            text-align: left;
+        }
+
+        .checkbox-container input[type="checkbox"] {
+            margin-top: 1px;
+            transform: scale(0.9);
+        }
+
+        .checkbox-text {
+            font-size: 12px;
+            color: #ccc;
+            font-family: "Anonymous Pro", monospace;
+            letter-spacing: 0.5px;
+            line-height: 1.3;
+        }
+
+        .subscribe-button {
+            background: transparent;
+            border: none;
+            color: white;
+            padding: 0;
+            font-size: 20px;
+            cursor: pointer;
+            margin-top: 30px;
+            text-decoration: underline;
+            font-family: 'Adelphe Trouble', normal;
+            transition: all 0.3s ease;
+        }
+
+        .subscribe-button:hover {
+            color: #ccc;
+        }
+
+        /* Responsive Design - Tablets */
+        @media (max-width: 1024px) and (min-width: 769px) {
+            .header {
+                padding: 15px 20px;
+            }
+            
+            .title {
+                font-size: 20px;
+                line-height: 20px;
+            }
+            
+            .newsletter-link {
+                font-size: 18px;
+                padding: 2px 12px;
+            }
+            
+            .main-content {
+                padding: 30px 20px;
+            }
+            
+            .artist-image {
+                max-height: 55vh;
+            }
+            
+            .modal-content {
+                max-width: 450px;
+                padding: 35px;
+            }
+            
+            footer {
+                font-size: 11px;
+            }
+        }
+
+        /* Responsive Design - Mobile Large */
+        @media (max-width: 768px) and (min-width: 481px) {
+            .header {
+                padding: 12px 15px;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .title {
+                font-size: 18px;
+                line-height: 18px;
+                text-align: left;
+            }
+
+            .newsletter-link {
+                font-size: 16px;
+                padding: 3px 15px;
+            }
+
+            .main-content {
+                padding: 20px 15px;
+                height: calc(100vh - 180px);
+            }
+
+            .artist-image {
+                max-height: 60vh;
+                max-width: 60%;
+            }
+            
+            .modal-content {
+                padding: 30px 20px;
+                max-width: 350px;
+            }
+            
+            .modal-title {
+                font-size: 18px;
+            }
+            
+            .close-button {
+                top: 15px;
+                right: 15px;
+                font-size: 22px;
+            }
+            
+            footer {
+                padding: 8px 15px;
+                font-size: 10px;
+                flex-direction: column;
+                gap: 8px;
+            }
+            
+            .copyright {
+                position: static;
+                transform: none;
+                order: 2;
+                margin: 5px 0;
+            }
+            
+            .footer-link {
+                font-size: 9px;
+            }
+        }
+        
+/* Responsive Design - Mobile Small - VERSION SANS SCROLL */
+        @media (max-width: 480px) {
+    body {
+        min-height: 100vh;
+        max-height: 100vh; /* Limite la hauteur totale */
+        overflow: hidden; /* Empêche le scroll global */
+    }
+
+    .header {
+        padding: 8px 12px; /* Réduit le padding */
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 10px;
+        height: auto;
+        min-height: 40px; /* Hauteur fixe réduite */
+    }
+
+    .title {
+        font-size: 13px; /* Réduit encore la taille */
+        letter-spacing: 0.3px;
+        line-height: 12px; /* Ligne plus compacte */
+        text-align: left;
+        margin: 0;
+        padding: 0;
+    }
+
+    .newsletter-link {
+        font-size: 9px; /* Plus petit */
+        font-weight: 800;
+        padding: 2px 6px;
+        white-space: nowrap; /* Empêche le retour à la ligne */
+    }
+
+    .main-content {
+        padding: 10px 10px; /* Padding réduit */
+        height: calc(100vh - 90px); /* Augmenté pour laisser place au footer */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+    }
+
+    .artist-image {
+        max-height: calc(100vh - 100px); /* Ajusté pour footer visible */
+        max-width: 60%;
+        object-fit: contain;
+    }
+    
+    footer {
+        padding: 4px 12px; /* Padding réduit */
+        font-size: 8px; /* Plus petit */
+        flex-direction: column;
+        gap: 3px; /* Gap réduit */
+        height: auto;
+        min-height: 35px; /* Hauteur augmentée pour visibilité */
+        align-items: center; /* Centre tous les éléments */
+        position: relative; /* S'assure qu'il reste visible */
+    }
+    
+    /* Masquer les liens desktop sur mobile */
+    footer > .footer-link {
+        display: none;
+    }
+    
+    /* Afficher le container mobile */
+    .footer-links-container {
+        display: flex !important;
+        justify-content: center;
+        gap: 15px; /* Espace entre les liens */
+        order: 2; /* LIENS EN SECOND */
+    }
+    
+    .copyright {
+        position: static;
+        transform: none;
+        order: 1; /* COPYRIGHT EN PREMIER */
+        margin: 2px 0; /* Marges réduites */
+        font-size: 7px;
+        text-align: center;
+    }
+    
+    .footer-link {
+        font-size: 7px; /* Plus petit */
+    }
+
+    /* Modal ajustée pour mobile */
+    .modal-content {
+        padding: 20px 12px; /* Padding réduit */
+        max-width: 300px;
+        margin: 5px;
+    }
+    
+    .modal-title {
+        font-size: 14px; /* Plus petit */
+        margin-bottom: 12px;
+    }
+    
+    .email-input {
+        font-size: 12px;
+        padding: 6px 5px;
+    }
+    
+    .checkbox-text {
+        font-size: 10px;
+        line-height: 1.1;
+    }
+    
+    .subscribe-button {
+        font-size: 16px;
+        margin-top: 20px;
+    }
+    
+    .close-button {
+        top: 10px;
+        right: 10px;
+        font-size: 18px;
+    }
+}
+
+/* Ultra Small Screens - VERSION ENCORE PLUS COMPACTE */
+@media (max-width: 360px) {
+    body {
+        max-height: 100vh;
+        overflow: hidden;
+    }
+
+    .header {
+        padding: 6px 8px;
+        min-height: 35px;
+    }
+    
+    .title {
+        font-size: 11px;
+        line-height: 11px;
+        letter-spacing: 0.2px;
+    }
+    
+    .newsletter-link {
+        font-size: 8px;
+        padding: 2px 5px;
+    }
+    
+    .main-content {
+        padding: 8px 6px;
+        height: calc(100vh - 80px); /* Ajusté pour footer visible */
+    }
+
+    .artist-image {
+        max-height: calc(100vh - 90px); /* Ajusté pour footer visible */
+        max-width: 95%;
+    }
+    
+    footer {
+        padding: 3px 8px;
+        font-size: 7px;
+        min-height: 30px; /* Hauteur augmentée pour ultra small */
+        gap: 2px;
+        align-items: center;
+        position: relative;
+    }
+    
+    /* Masquer les liens desktop sur ultra small */
+    footer > .footer-link {
+        display: none;
+    }
+    
+    /* Afficher le container mobile */
+    .footer-links-container {
+        display: flex !important;
+        gap: 10px;
+        order: 2;
+    }
+    
+    .copyright {
+        font-size: 6px;
+        margin: 1px 0;
+        order: 1;
+    }
+    
+    .footer-link {
+        font-size: 6px;
+    }
+    
+    .modal-content {
+        padding: 15px 10px;
+        max-width: 280px;
+    }
+    
+    .modal-title {
+        font-size: 13px;
+    }
+    
+    .subscribe-button {
+        font-size: 14px;
+    }
+}
+        
+
+        /* Landscape Orientation for Mobile */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .header {
+                padding: 8px 15px;
+            }
+            
+            .main-content {
+                padding: 10px 15px;
+            }
+            
+            .artist-image {
+                max-height: 70vh;
+            }
+            
+            .modal-content {
+                padding: 20px;
+                max-height: 90vh;
+                overflow-y: auto;
+            }
+            
+            .modal-title {
+                margin-bottom: 15px;
+            }
+            
+            .subscribe-button {
+                margin-top: 20px;
+            }
+            
+            footer {
+                padding: 5px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1 class="title">trop bizarre pour vivre, <br> trop rare pour mourir.</h1>
+        <a href="#newsletter" class="newsletter-link">NEWSLETTER</a>
+    </header>
+
+    <main class="main-content">
+        <img src="home-pic.jpg"
+             alt="Photo de l'artiste" 
+             class="artist-image">
+    </main>
+
+    <footer>
+        <a href="Politique de confidentialité.html" class="footer-link">Politique de confidentialité</a>
+        <div class="copyright">
+            © 2025 MOKA BOKA. Tous droits réservés.
+        </div>
+        <a href="Mentions-légales.html" class="footer-link">Mentions légales</a>
+        
+        <!-- Container mobile uniquement (masqué par défaut) -->
+        <div class="footer-links-container">
+            <a href="Politique de confidentialité.html" class="footer-link">Politique de confidentialité</a>
+            <a href="Mentions-légales.html" class="footer-link">Mentions légales</a>
+        </div>
+    </footer>
+<!-- Modal Newsletter -->
+    <div class="modal-overlay" id="newsletterModal">
+        <div class="modal-content">
+            <button class="close-button" id="closeModal">[x]</button>
+            <div class="modal-title">abonne-toi pour être prévenue.</div>
+            <form class="modal-form" id="newsletterForm">
+                <input type="email" class="email-input" placeholder="Email" required>
+                <div class="checkbox-container">
+                    <input type="checkbox" id="consent" required>
+                    <label for="consent" class="checkbox-text">J'accepte de recevoir des emails de la part de Moka Boka</label>
+                </div>
+                <button type="submit" class="subscribe-button">s'inscrire</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Éléments DOM
+        const newsletterLink = document.querySelector('.newsletter-link');
+        const modal = document.getElementById('newsletterModal');
+        const closeButton = document.getElementById('closeModal');
+        const form = document.getElementById('newsletterForm');
+
+        // Ouvrir la modal
+        newsletterLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            modal.style.display = 'flex';
+            newsletterLink.style.display = 'none'; // Masque le bouton newsletter
+            document.body.style.overflow = 'hidden'; // Empêche le scroll
+        });
+
+        // Fermer la modal avec le bouton X
+        closeButton.addEventListener('click', function() {
+            modal.style.display = 'none';
+            newsletterLink.style.display = 'block'; // Reaffiche le bouton newsletter
+            document.body.style.overflow = 'auto'; // Remet le scroll
+        });
+
+        // Fermer avec Échap
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && modal.style.display === 'flex') {
+                modal.style.display = 'none';
+                newsletterLink.style.display = 'block'; // Reaffiche le bouton newsletter
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // Gestion du formulaire
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = form.querySelector('.email-input').value;
+            const consent = form.querySelector('#consent').checked;
+            
+            if (email && consent) {
+                alert(`Inscription réussie pour: ${email}`);
+                modal.style.display = 'none';
+                newsletterLink.style.display = 'block'; // Reaffiche le bouton newsletter
+                document.body.style.overflow = 'auto';
+                form.reset();
+            }
+        });
+
+        // Gestion des autres liens footer (conservés de l'original)
+        document.addEventListener('DOMContentLoaded', function() {
+            const privacyLink = document.querySelector('a[href="Politique de confidentialité.html"]');
+            const legalLink = document.querySelector('a[href="Mentions-légales.html"]');
+            
+            if (privacyLink) {
+                privacyLink.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    alert('Redirection vers la politique de confidentialité (à configurer)');
+                });
+            }
+            
+            if (legalLink) {
+                legalLink.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    alert('Redirection vers les mentions légales (à configurer)');
+                });
+            }
+        });
+    </script>
+</body>
+</html>
